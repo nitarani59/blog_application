@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public ApiResponse createUser(UserDto userDto) {
-        User user = userRepository.save(modelMapper.map(userDto, User.class));
+        userRepository.save(modelMapper.map(userDto, User.class));
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStausCode(HttpStatus.OK);
         apiResponse.setMessage("User created");
