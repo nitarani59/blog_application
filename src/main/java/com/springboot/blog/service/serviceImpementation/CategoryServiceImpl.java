@@ -34,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public CategoryDto getCategory(String categoryId) {
+    public CategoryDto getCategory(Integer categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() ->
         new ResourceNotFoundException(String.format("Id %s does not exist.", categoryId)));
         return modelMapper.map(category, CategoryDto.class);
@@ -48,14 +48,14 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public void deleteCategory(String categoryId) {
+    public void deleteCategory(Integer categoryId) {
         categoryRepository.findById(categoryId).orElseThrow(() ->
             new ResourceNotFoundException(String.format("Id %s does not exist.", categoryId)));
         categoryRepository.deleteById(categoryId);
     }
 
     @Override
-    public CategoryDto updateCategory(String categoryId, CategoryDto categoryDto) {
+    public CategoryDto updateCategory(Integer categoryId, CategoryDto categoryDto) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() ->
         new ResourceNotFoundException(String.format("Id %s does not exist.", categoryId)));
         if (Objects.nonNull(categoryDto.getTitle())) {

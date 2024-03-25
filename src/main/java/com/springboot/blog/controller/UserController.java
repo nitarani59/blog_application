@@ -39,12 +39,12 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    ResponseEntity<UserDto> getUser(@PathVariable(name = "id") String userId) {
+    ResponseEntity<UserDto> getUser(@PathVariable(name = "id") Integer userId) {
         return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/user/{id}")
-    ResponseEntity<ApiResponse> deleteUser(@PathVariable(name = "id") String userId) {
+    ResponseEntity<ApiResponse> deleteUser(@PathVariable(name = "id") Integer userId) {
         userService.deleteUser(userId);
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStausCode(HttpStatus.OK);;
@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    ResponseEntity<UserDto> updateUser(@PathVariable(name = "id") String userId, @RequestBody @Validated(UpdateValidation.class) UserDto userDto) {
+    ResponseEntity<UserDto> updateUser(@PathVariable(name = "id") Integer userId, @RequestBody @Validated(UpdateValidation.class) UserDto userDto) {
         UserDto user = userService.updateUser(userId, userDto);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

@@ -8,7 +8,7 @@ import com.springboot.blog.entity.User;
 
 import java.util.List;
 
-public interface PostRepository extends JpaRepository<Post, String>{
+public interface PostRepository extends JpaRepository<Post, Integer>{
     public List<Post> findByUser(User user);
     public List<Post> findByCategory(Category category);
     public List<Post> findByTitleContaining(String title);

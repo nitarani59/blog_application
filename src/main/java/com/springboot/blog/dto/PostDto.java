@@ -1,5 +1,7 @@
 package com.springboot.blog.dto;
 
+import java.util.List;
+
 import com.springboot.blog.validation.CreateValidation;
 
 import jakarta.validation.constraints.NotBlank;
@@ -14,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDto {
-    private String postId;
+    private Integer postId;
 
     @NotBlank(message = "Invalid value for title.", groups = {CreateValidation.class})
     @NotNull(message = "Invalid value for title.", groups = CreateValidation.class)
@@ -29,4 +31,5 @@ public class PostDto {
     private String image;
     private UserDto user;
     private CategoryDto category;
+    private List<CommentDto> comments;
 }

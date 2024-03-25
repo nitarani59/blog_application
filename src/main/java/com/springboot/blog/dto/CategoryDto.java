@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryDto {
-    private String categoryId;
+    private Integer categoryId;
     @NotNull(message = "Enter a title.", groups = CreateValidation.class)
     @NotBlank(message = "Enter a title.", groups = CreateValidation.class)
     private String title;

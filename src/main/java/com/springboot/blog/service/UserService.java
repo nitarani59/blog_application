@@ -8,8 +8,8 @@ import com.springboot.blog.response.ApiResponse;
 public interface UserService {
 
     ApiResponse createUser(UserDto userDto);
-    UserDto getUser(String userId);
+    UserDto getUser(Integer userId);
     List<UserDto> getAllUsers();
-    void deleteUser(String userId);
-    UserDto updateUser(String userId, UserDto userDto);
+    void deleteUser(Integer userId);
+    UserDto updateUser(Integer userId, UserDto userDto);
 }

@@ -7,8 +7,8 @@ import com.springboot.blog.response.ApiResponse;
 
 public interface CategoryService {
     ApiResponse createCategory(CategoryDto categoryDto);
-    CategoryDto getCategory(String categoryId);
+    CategoryDto getCategory(Integer categoryId);
     List<CategoryDto> getAllCategories();
-    void deleteCategory(String categoryId);
-    CategoryDto updateCategory(String categoryId, CategoryDto categoryDto);
+    void deleteCategory(Integer categoryId);
+    CategoryDto updateCategory(Integer categoryId, CategoryDto categoryDto);
 }

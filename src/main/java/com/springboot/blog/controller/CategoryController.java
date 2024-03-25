@@ -40,12 +40,12 @@ public class CategoryController {
     }
 
     @GetMapping("/category/{id}")
-    ResponseEntity<CategoryDto> getCategory(@PathVariable(name = "id") String categoryId) {
+    ResponseEntity<CategoryDto> getCategory(@PathVariable(name = "id") Integer categoryId) {
         return new ResponseEntity<>(categoryService.getCategory(categoryId), HttpStatus.OK);
     }
 
     @DeleteMapping("/category/{id}")
-    ResponseEntity<ApiResponse> deleteCategory(@PathVariable(name = "id") String categoryId) {
+    ResponseEntity<ApiResponse> deleteCategory(@PathVariable(name = "id") Integer categoryId) {
         ApiResponse apiResponse = new ApiResponse();
         try {
         categoryService.deleteCategory(categoryId);
@@ -62,7 +62,7 @@ public class CategoryController {
     }
 
     @PutMapping("/category/{id}")
-    ResponseEntity<CategoryDto> updateCategory(@PathVariable(name = "id") String categoryId, @RequestBody @Validated(UpdateValidation.class) CategoryDto categoryDto) {
+    ResponseEntity<CategoryDto> updateCategory(@PathVariable(name = "id") Integer categoryId, @RequestBody @Validated(UpdateValidation.class) CategoryDto categoryDto) {
         CategoryDto category = categoryService.updateCategory(categoryId, categoryDto);
         return new ResponseEntity<>(category, HttpStatus.OK);
     }

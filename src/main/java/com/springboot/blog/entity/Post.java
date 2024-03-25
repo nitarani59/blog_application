@@ -1,10 +1,14 @@
 package com.springboot.blog.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,8 +23,8 @@ import lombok.Setter;
 @Table(name = "post")
 public class Post {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    private String postId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer postId;
     private String image;
     private String content;
     private String title;
@@ -30,4 +34,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
 }

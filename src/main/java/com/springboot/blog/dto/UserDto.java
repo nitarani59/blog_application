@@ -17,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    private String userId;
+    private Integer userId;
     @StringValidation(message = "Invalid value for firstName.", groups = {CreateValidation.class, UpdateValidation.class})
     @NotNull(message = "firstName cannot be empty.", groups = CreateValidation.class)
     private String firstName;

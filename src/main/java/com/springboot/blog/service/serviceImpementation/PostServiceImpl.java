@@ -9,13 +9,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.springboot.blog.dto.CategoryDto;
+import com.springboot.blog.dto.CommentDto;
 import com.springboot.blog.dto.PostDto;
 import com.springboot.blog.dto.UserDto;
 import com.springboot.blog.entity.Category;
+import com.springboot.blog.entity.Comment;
 import com.springboot.blog.entity.Post;
 import com.springboot.blog.entity.User;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.repository.CategoryRepository;
+import com.springboot.blog.repository.CommentRepository;
 import com.springboot.blog.repository.PostRepository;
 import com.springboot.blog.repository.UserRepository;
 import com.springboot.blog.response.ApiResponse;
@@ -32,17 +35,23 @@ public class PostServiceImpl implements PostService{
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CommentRepository commentRepository;
     
     @Override
-    public ApiResponse createPost(PostDto postDto, String userId, String categoryId) {
+    public ApiResponse createPost(PostDto postDto, Integer userId, Integer categoryId) {
         User user = userRepository.findById(userId).orElseThrow(()
          -> new ResourceNotFoundException(String.format("Id %s does not exist.", userId)));
 
         Category category = categoryRepository.findById(categoryId).orElseThrow(()
          -> new ResourceNotFoundException(String.format("Id %s does not exist.", categoryId)));
 
+        List<Comment> comments = commentRepository.findAll();
+        // comments.get(0).get
+
         postDto.setUser(modelMapper.map(user, UserDto.class));
         postDto.setCategory(modelMapper.map(category, CategoryDto.class));
+        postDto.setComments(comments.stream().map(comment -> modelMapper.map(comment, CommentDto.class)).toList());
         postRepository.save(modelMapper.map(postDto, Post.class));
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStausCode(HttpStatus.OK);
@@ -52,7 +61,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public PostDto getPost(String postId) {
+    public PostDto getPost(Integer postId) {
         Post post = postRepository.findById(postId).orElseThrow(() ->
         new ResourceNotFoundException(String.format("Id %s does not exist.", postId)));
         return modelMapper.map(post, PostDto.class);
@@ -66,14 +75,14 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public void deletePost(String postId) {
+    public void deletePost(Integer postId) {
         postRepository.findById(postId).orElseThrow(() ->
             new ResourceNotFoundException(String.format("Id %s does not exist.", postId)));
         postRepository.deleteById(postId);
     }
 
     @Override
-    public PostDto updatePost(String postId, PostDto postDto) {
+    public PostDto updatePost(Integer postId, PostDto postDto) {
         Post post = postRepository.findById(postId).orElseThrow(() ->
         new ResourceNotFoundException(String.format("Id %s does not exist.", postId)));
         if (Objects.nonNull(postDto.getContent())) {
@@ -89,7 +98,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<PostDto> getPostsByUserId(String userId) {
+    public List<PostDto> getPostsByUserId(Integer userId) {
         User user = userRepository.findById(userId).orElseThrow(() ->
             new ResourceNotFoundException(String.format("Id %s does not exist.", userId)
         ));
@@ -98,7 +107,7 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public List<PostDto> getPostByCategoryId(String categoryId) {
+    public List<PostDto> getPostByCategoryId(Integer categoryId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() ->
             new ResourceNotFoundException(String.format("Id %s does not exist.", categoryId)
         ));
