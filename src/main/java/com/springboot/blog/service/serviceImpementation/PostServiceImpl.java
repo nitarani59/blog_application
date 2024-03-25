@@ -105,4 +105,10 @@ public class PostServiceImpl implements PostService{
         List<Post> posts = postRepository.findByCategory(category);
         return posts.stream().map(post -> modelMapper.map(post, PostDto.class)).toList();
     }
+
+    @Override
+    public List<PostDto> searchInPost(String keyword) {
+        List<Post> posts = postRepository.findByTitleContaining(keyword);
+        return posts.stream().map(post -> modelMapper.map(post, PostDto.class)).toList();
+    }
 }

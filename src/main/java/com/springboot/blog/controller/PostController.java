@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.blog.dto.PostDto;
@@ -68,5 +69,10 @@ public class PostController {
     ResponseEntity<PostDto> updatePost(@PathVariable(name = "id") String postId, @RequestBody @Validated(UpdateValidation.class) PostDto postDto) {
         PostDto post = postService.updatePost(postId, postDto);
         return new ResponseEntity<>(post, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchPost")
+    ResponseEntity<List<PostDto>> serachKeyword(@RequestParam String search) {
+        return new ResponseEntity<>(postService.searchInPost(search), HttpStatus.OK);
     }
 }

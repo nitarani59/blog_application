@@ -13,4 +13,5 @@ public interface PostService {
     PostDto updatePost(String postId, PostDto postDto);
     List<PostDto> getPostsByUserId(String userId);
     List<PostDto> getPostByCategoryId(String categoryId);
+    List<PostDto> searchInPost(String keyword);
 }
