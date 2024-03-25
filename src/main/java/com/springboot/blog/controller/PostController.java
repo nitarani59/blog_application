@@ -22,28 +22,39 @@ import com.springboot.blog.validation.CreateValidation;
 import com.springboot.blog.validation.UpdateValidation;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/api")
 public class PostController {
     
     @Autowired
     PostService postService;
 
-    @PostMapping("/create")
-    ResponseEntity<ApiResponse> createPost(@RequestBody @Validated(CreateValidation.class) PostDto postDto) {
-        return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
+    @PostMapping("/user/{userId}/category/{categoryId}/post")
+    ResponseEntity<ApiResponse> createPost(@RequestBody @Validated(CreateValidation.class) PostDto postDto,
+    @PathVariable String userId, @PathVariable String categoryId) {
+        return new ResponseEntity<>(postService.createPost(postDto, userId, categoryId), HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping("/user/{userId}/post")
+    ResponseEntity<List<PostDto>> getAllPostsByUserId(@PathVariable String userId) {
+        return new ResponseEntity<>(postService.getPostsByUserId(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/category/{categoryId}/post")
+    ResponseEntity<List<PostDto>> getAllPostsByCategoryId(@PathVariable String categoryId) {
+        return new ResponseEntity<>(postService.getPostByCategoryId(categoryId), HttpStatus.OK);
+    }
+
+    @GetMapping("/post")
     ResponseEntity<List<PostDto>> getAllPosts() {
         return new ResponseEntity<>(postService.getAllCategories(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/post/{id}")
     ResponseEntity<PostDto> getPost(@PathVariable(name = "id") String postId) {
         return new ResponseEntity<>(postService.getPost(postId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/post/{id}")
     ResponseEntity<ApiResponse> deletePost(@PathVariable(name = "id") String postId) {
         postService.deletePost(postId);
         ApiResponse apiResponse = new ApiResponse();
@@ -53,7 +64,7 @@ public class PostController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/post/{id}")
     ResponseEntity<PostDto> updatePost(@PathVariable(name = "id") String postId, @RequestBody @Validated(UpdateValidation.class) PostDto postDto) {
         PostDto post = postService.updatePost(postId, postDto);
         return new ResponseEntity<>(post, HttpStatus.OK);

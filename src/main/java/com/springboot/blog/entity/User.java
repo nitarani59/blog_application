@@ -1,10 +1,14 @@
 package com.springboot.blog.entity;
 
+import java.util.List;
+
 import org.hibernate.annotations.GenericGenerator;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +28,6 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Post> posts;
 }

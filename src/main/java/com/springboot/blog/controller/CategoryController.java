@@ -3,6 +3,7 @@ package com.springboot.blog.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,38 +23,45 @@ import com.springboot.blog.validation.CreateValidation;
 import com.springboot.blog.validation.UpdateValidation;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api")
 public class CategoryController {
     
     @Autowired
     CategoryService categoryService;
 
-    @PostMapping("/create")
+    @PostMapping("/category")
     ResponseEntity<ApiResponse> createCategory(@RequestBody @Validated(CreateValidation.class) CategoryDto categoryDto) {
         return new ResponseEntity<>(categoryService.createCategory(categoryDto), HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping("/categories")
     ResponseEntity<List<CategoryDto>> getAllCategorys() {
         return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/category/{id}")
     ResponseEntity<CategoryDto> getCategory(@PathVariable(name = "id") String categoryId) {
         return new ResponseEntity<>(categoryService.getCategory(categoryId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/category/{id}")
     ResponseEntity<ApiResponse> deleteCategory(@PathVariable(name = "id") String categoryId) {
-        categoryService.deleteCategory(categoryId);
         ApiResponse apiResponse = new ApiResponse();
+        try {
+        categoryService.deleteCategory(categoryId);
         apiResponse.setStausCode(HttpStatus.OK);;
         apiResponse.setMessage("Category deleted successfully");
         apiResponse.setSuccess(true);
+        }
+        catch(DataIntegrityViolationException exception) {
+            apiResponse.setMessage("Cannot delete entity: " + exception.getLocalizedMessage());
+            apiResponse.setStausCode(HttpStatus.BAD_REQUEST);
+            apiResponse.setSuccess(false);
+        }
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/category/{id}")
     ResponseEntity<CategoryDto> updateCategory(@PathVariable(name = "id") String categoryId, @RequestBody @Validated(UpdateValidation.class) CategoryDto categoryDto) {
         CategoryDto category = categoryService.updateCategory(categoryId, categoryDto);
         return new ResponseEntity<>(category, HttpStatus.OK);

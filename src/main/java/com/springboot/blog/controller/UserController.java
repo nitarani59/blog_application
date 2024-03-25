@@ -22,28 +22,28 @@ import com.springboot.blog.validation.CreateValidation;
 import com.springboot.blog.validation.UpdateValidation;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api")
 public class UserController {
     
     @Autowired
     UserService userService;
 
-    @PostMapping("/create")
+    @PostMapping("/user")
     ResponseEntity<ApiResponse> createUser(@RequestBody @Validated(CreateValidation.class) UserDto userDto) {
         return new ResponseEntity<>(userService.createUser(userDto), HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping("/users")
     ResponseEntity<List<UserDto>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     ResponseEntity<UserDto> getUser(@PathVariable(name = "id") String userId) {
         return new ResponseEntity<>(userService.getUser(userId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/user/{id}")
     ResponseEntity<ApiResponse> deleteUser(@PathVariable(name = "id") String userId) {
         userService.deleteUser(userId);
         ApiResponse apiResponse = new ApiResponse();
@@ -53,7 +53,7 @@ public class UserController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/user/{id}")
     ResponseEntity<UserDto> updateUser(@PathVariable(name = "id") String userId, @RequestBody @Validated(UpdateValidation.class) UserDto userDto) {
         UserDto user = userService.updateUser(userId, userDto);
         return new ResponseEntity<>(user, HttpStatus.OK);

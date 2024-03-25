@@ -17,14 +17,16 @@ public class PostDto {
     private String postId;
 
     @NotBlank(message = "Invalid value for title.", groups = {CreateValidation.class})
-    @NotNull(message = "Invalid value for title-1.", groups = CreateValidation.class)
+    @NotNull(message = "Invalid value for title.", groups = CreateValidation.class)
     private String title;
     
     @NotBlank(message = "Invalid value for content.", groups = {CreateValidation.class})
-    @NotNull(message = "Invalid value for content-1.", groups = CreateValidation.class)
+    @NotNull(message = "Invalid value for content.", groups = CreateValidation.class)
     private String content;
 
     @NotBlank(message = "Invalid value for image.", groups = {CreateValidation.class})
-    @NotNull(message = "Invalid value for image-1.", groups = CreateValidation.class)
+    @NotNull(message = "Invalid value for image.", groups = CreateValidation.class)
     private String image;
+    private UserDto user;
+    private CategoryDto category;
 }

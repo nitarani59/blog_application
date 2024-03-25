@@ -1,10 +1,14 @@
 package com.springboot.blog.entity;
 
+import java.util.List;
+
 import org.hibernate.annotations.GenericGenerator;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,4 +28,6 @@ public class Category {
     private String categoryId;
     private String title;
     private String description;
+    @OneToMany(mappedBy = "category")
+    private List<Post> posts;
 }
