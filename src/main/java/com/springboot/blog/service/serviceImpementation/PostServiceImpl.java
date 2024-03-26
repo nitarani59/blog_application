@@ -49,10 +49,13 @@ public class PostServiceImpl implements PostService{
         List<Comment> comments = commentRepository.findAll();
         // comments.get(0).get
 
-        postDto.setUser(modelMapper.map(user, UserDto.class));
-        postDto.setCategory(modelMapper.map(category, CategoryDto.class));
-        postDto.setComments(comments.stream().map(comment -> modelMapper.map(comment, CommentDto.class)).toList());
-        postRepository.save(modelMapper.map(postDto, Post.class));
+        // postDto.setUser(modelMapper.map(user, UserDto.class));
+        // postDto.setCategory(modelMapper.map(category, CategoryDto.class));
+        // postDto.setComments(comments.stream().map(comment -> modelMapper.map(comment, CommentDto.class)).toList());
+        Post post = modelMapper.map(postDto, Post.class);
+        post.setUser(user);
+        post.setCategory(category);
+        postRepository.save(post);
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStausCode(HttpStatus.OK);
         apiResponse.setMessage("Post created");

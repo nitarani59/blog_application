@@ -23,9 +23,10 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-    @PostMapping("/post/{postId}/comment")
-    ResponseEntity<ApiResponse> createCategory(@RequestBody @Validated(CreateValidation.class) CommentDto commentDto, @PathVariable Integer postId) {
-        return new ResponseEntity<>(commentService.createComment(commentDto, postId), HttpStatus.CREATED);
+    @PostMapping("/user/{userId}/post/{postId}/comment")
+    ResponseEntity<ApiResponse> createCategory(@RequestBody @Validated(CreateValidation.class) CommentDto commentDto, 
+    @PathVariable Integer userId, @PathVariable Integer postId) {
+        return new ResponseEntity<>(commentService.createComment(commentDto, userId, postId), HttpStatus.CREATED);
     }
 
 

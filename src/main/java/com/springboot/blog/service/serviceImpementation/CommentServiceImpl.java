@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.springboot.blog.dto.CommentDto;
-import com.springboot.blog.dto.PostDto;
-import com.springboot.blog.dto.UserDto;
 import com.springboot.blog.entity.Comment;
 import com.springboot.blog.entity.Post;
 import com.springboot.blog.entity.User;
@@ -24,21 +22,22 @@ public class CommentServiceImpl implements CommentService{
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private PostRepository postRepository;
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
-    public ApiResponse createComment(CommentDto commentDto, Integer postId) {
-        // User user = userRepository.findById(userId).orElseThrow(() ->
-        //     new ResourceNotFoundException(String.format("UserId %s does not exist", userId)));
+    public ApiResponse createComment(CommentDto commentDto, Integer userId, Integer postId) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+            new ResourceNotFoundException(String.format("UserId %s does not exist", userId)));
         Post post = postRepository.findById(postId).orElseThrow(() ->
             new ResourceNotFoundException(String.format("PostId %s does not exist", postId)));
         
         Comment comment = modelMapper.map(commentDto, Comment.class);
         comment.setPost(post);
+        comment.setUser(user);
         commentRepository.save(comment);
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setMessage("Comment added successfully");
