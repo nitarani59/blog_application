@@ -32,4 +32,4 @@ public class User {
     private List<Comment> comments;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<React> reactions;
-}
+    }

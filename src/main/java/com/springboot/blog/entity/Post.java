@@ -28,7 +28,7 @@ public class Post {
     private String image;
     private String content;
     private String title;
-    @ManyToOne
+        @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
@@ -40,6 +40,6 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<React> reactionsBy;
-    private Integer reactionCount;
+private Integer reactionCount;
 
-}
+    }

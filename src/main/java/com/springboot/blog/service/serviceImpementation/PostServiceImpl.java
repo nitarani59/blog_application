@@ -10,14 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.blog.dto.PostDto;
 import com.springboot.blog.entity.Category;
-import com.springboot.blog.entity.Comment;
 import com.springboot.blog.entity.Post;
 import com.springboot.blog.entity.User;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.repository.CategoryRepository;
-import com.springboot.blog.repository.CommentRepository;
 import com.springboot.blog.repository.PostRepository;
-import com.springboot.blog.repository.ReactRepository;
 import com.springboot.blog.repository.UserRepository;
 import com.springboot.blog.response.ApiResponse;
 import com.springboot.blog.service.PostService;
@@ -33,8 +30,6 @@ public class PostServiceImpl implements PostService{
     private UserRepository userRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-    @Autowired
-    private ReactRepository reactRepository;
     
     @Override
     public ApiResponse createPost(PostDto postDto, Integer userId, Integer categoryId) {

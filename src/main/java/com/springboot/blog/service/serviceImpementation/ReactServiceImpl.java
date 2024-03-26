@@ -38,8 +38,11 @@ public class ReactServiceImpl implements ReactService{
         React react = modelMapper.map(reactDto, React.class);
         react.setUser(user);
         react.setPost(post);
+        if (postRepository.findById(postId).get().getReactionsBy().stream().anyMatch(react1 -> react1.getUser().getUserId().equals(userId))) {
+            return new ApiResponse(HttpStatus.CONFLICT, "Already like by userId " + userId, false);
+        }
         reactRepository.save(react);
-        post.setReactionCount(reactRepository.findAll().size());
+        post.setReactionCount(reactRepository.countReactionsByPostId(postId));
         postRepository.save(post);
         return new ApiResponse(HttpStatus.CREATED, "Reacted the post whose id is " + postId, true);
     }
@@ -48,5 +51,5 @@ public class ReactServiceImpl implements ReactService{
     public void removeReaction(Integer reactId) {
         reactRepository.deleteById(reactId);
     }
-    
+
 }
