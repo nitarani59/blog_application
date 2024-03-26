@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.springboot.blog.dto.CategoryDto;
-import com.springboot.blog.dto.CommentDto;
 import com.springboot.blog.dto.PostDto;
-import com.springboot.blog.dto.UserDto;
 import com.springboot.blog.entity.Category;
 import com.springboot.blog.entity.Comment;
 import com.springboot.blog.entity.Post;
@@ -20,6 +17,7 @@ import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.repository.CategoryRepository;
 import com.springboot.blog.repository.CommentRepository;
 import com.springboot.blog.repository.PostRepository;
+import com.springboot.blog.repository.ReactRepository;
 import com.springboot.blog.repository.UserRepository;
 import com.springboot.blog.response.ApiResponse;
 import com.springboot.blog.service.PostService;
@@ -36,7 +34,7 @@ public class PostServiceImpl implements PostService{
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private CommentRepository commentRepository;
+    private ReactRepository reactRepository;
     
     @Override
     public ApiResponse createPost(PostDto postDto, Integer userId, Integer categoryId) {
@@ -46,12 +44,6 @@ public class PostServiceImpl implements PostService{
         Category category = categoryRepository.findById(categoryId).orElseThrow(()
          -> new ResourceNotFoundException(String.format("Id %s does not exist.", categoryId)));
 
-        List<Comment> comments = commentRepository.findAll();
-        // comments.get(0).get
-
-        // postDto.setUser(modelMapper.map(user, UserDto.class));
-        // postDto.setCategory(modelMapper.map(category, CategoryDto.class));
-        // postDto.setComments(comments.stream().map(comment -> modelMapper.map(comment, CommentDto.class)).toList());
         Post post = modelMapper.map(postDto, Post.class);
         post.setUser(user);
         post.setCategory(category);

@@ -32,4 +32,6 @@ public class PostDto {
     private UserDto user;
     private CategoryDto category;
     private List<CommentDto> comments;
+    private List<ReactDto> reactionsBy;
+    private Integer reactionCount = 0;
 }

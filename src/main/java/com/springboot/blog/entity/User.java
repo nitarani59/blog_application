@@ -30,4 +30,6 @@ public class User {
     private List<Post> posts;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Comment> comments;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<React> reactions;
 }
