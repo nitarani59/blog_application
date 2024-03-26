@@ -2,7 +2,6 @@ package com.springboot.blog.dto;
 
 import java.util.List;
 
-import com.springboot.blog.entity.User;
 import com.springboot.blog.validation.CreateValidation;
 
 import jakarta.validation.constraints.NotBlank;
